@@ -35,4 +35,12 @@ public class RepuestoController {
         repuesto.setIdRepuesto(id);
         return ResponseEntity.ok(repuestoRepository.save(repuesto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarRepuesto(@PathVariable Integer id) {
+        if (!repuestoRepository.existsById(id))
+            return ResponseEntity.notFound().build();
+        repuestoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }

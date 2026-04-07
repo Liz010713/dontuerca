@@ -26,4 +26,21 @@ public class ServicioController {
     public ResponseEntity<Servicio> crearServicio(@Valid @RequestBody Servicio servicio) {
         return new ResponseEntity<>(servicioRepository.save(servicio), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Servicio> actualizarServicio(@PathVariable Integer id,
+            @Valid @RequestBody Servicio servicio) {
+        if (!servicioRepository.existsById(id))
+            return ResponseEntity.notFound().build();
+        servicio.setIdServicio(id);
+        return ResponseEntity.ok(servicioRepository.save(servicio));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarServicio(@PathVariable Integer id) {
+        if (!servicioRepository.existsById(id))
+            return ResponseEntity.notFound().build();
+        servicioRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
