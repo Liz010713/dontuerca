@@ -26,13 +26,13 @@ public class TallerService {
             throw new RuntimeException("No se ha generado factura para esta orden.");
         }
 
-        // Validación exigida por el negocio (estado 2 = PAGADA)
+        // EXCEPCIÓN DEL NEGOCIO: Bloqueo de rutas/acciones si no está pagado
         if (factura.getEstadoFactura().getIdEstadoFactura() != 2) {
             throw new RuntimeException("¡ALERTA! No se puede entregar el vehículo. La factura está PENDIENTE de pago.");
         }
 
         EstadoOrden estadoEntregado = new EstadoOrden();
-        estadoEntregado.setIdEstadoOrden(15); // ID de 'ENTREGADO' según las inserciones (estado_orden)
+        estadoEntregado.setIdEstadoOrden(15);
         orden.setEstadoOrden(estadoEntregado);
         ordenRepo.save(orden);
 
