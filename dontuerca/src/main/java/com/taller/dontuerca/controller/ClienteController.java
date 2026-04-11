@@ -35,6 +35,27 @@ public class ClienteController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarCliente(@PathVariable Integer id, @Valid @RequestBody Cliente cliente) {
+        if (!clienteRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        cliente.setIdCliente(id);
+        try {
+            return ResponseEntity.ok(clienteRepository.save(cliente));
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error de Negocio: Ya existe un cliente registrado con ese documento.");
+        }
+    }
+
+    @GetMapping("/documento/{doc}")
+    public ResponseEntity<?> obtenerPorDocumento(@PathVariable String doc) {
+        return clienteRepository.findByNumeroDocumento(doc)
+                .map(cliente -> ResponseEntity.ok(cliente))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarCliente(@PathVariable Integer id) {
         if (!clienteRepository.existsById(id))
