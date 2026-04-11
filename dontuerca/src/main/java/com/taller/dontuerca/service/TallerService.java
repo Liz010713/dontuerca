@@ -32,7 +32,7 @@ public class TallerService {
         }
 
         EstadoOrden estadoEntregado = new EstadoOrden();
-        estadoEntregado.setIdEstadoOrden(15);
+        estadoEntregado.setIdEstadoOrden(4);
         orden.setEstadoOrden(estadoEntregado);
         ordenRepo.save(orden);
 
